@@ -14,8 +14,11 @@ import sys
 from parser import parser_train, parser_test, sub_writer
 from sklearn.model_selection._split import StratifiedShuffleSplit
 from models.SVM import SVM
+from models.RegressionLogistique import Logistique
+from models.Ridge import LinearRidge
 
 CV_NUM = 5
+alpha = 0.01
 
 
 def compute_error(Y_pred, Y):
@@ -42,11 +45,15 @@ def main():
     train_X, train_y = parser_train()
     sub_X, sub_id = parser_test()
     labels = sorted(list(set(train_y)))
-
+    
     # Get the good model
     model = None
     if model_name == "svm":
         model = SVM
+    elif model_name == "logistique":
+        model = Logistique
+    elif model_name == "ridge":
+        model = LinearRidge
     else:
         raise Exception("This model was not implemented")
 
@@ -64,7 +71,7 @@ def main():
         X_train, X_valid = \
             train_X[train_index], train_X[valid_index]
         y_train, y_valid = train_y[train_index], train_y[valid_index]
-
+        
         the_model = model()
         the_model.fit(X_train, y_train)
         train_pred = the_model.predict(X_train)
