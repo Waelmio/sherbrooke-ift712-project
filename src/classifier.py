@@ -15,6 +15,7 @@ from parser import parser_train, parser_test, sub_writer
 from sklearn.model_selection._split import StratifiedShuffleSplit
 from models.SVM import SVM
 from models.MLP import MLP
+from models.LDA import LDA
 from sklearn import preprocessing
 
 CV_NUM = 5
@@ -54,6 +55,8 @@ def main():
         model = SVM
     elif model_name == "mlp":
         model = MLP
+    elif model_name == "lda":
+        model = LDA
     else:
         raise Exception("This model was not implemented")
 

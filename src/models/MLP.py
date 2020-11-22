@@ -1,5 +1,5 @@
 from sklearn.neural_network import MLPClassifier
-from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 from threading import Thread
 
 
@@ -25,7 +25,7 @@ class MLP():
        and threadings to increase speed."""
 
     def __init__(self):
-        self.K_CV_NUM = 8
+        self.K_CV_NUM = 5
         self.model = MLPClassifier()
 
     def compute_error(self, Y_pred, Y):
@@ -48,59 +48,80 @@ class MLP():
                 X[train_index], X[valid_index]
             y_train, y_valid = Y[train_index], Y[valid_index]
             model = MLPClassifier(hidden_layer_sizes=hidden_layer_sizes,
-                                  alpha=alpha)
+                                  alpha=alpha, max_iter=500)
             model.fit(X_train, y_train)
             pred = model.predict(X_valid)
             err += self.compute_error(pred, y_valid)
 
         err /= self.K_CV_NUM
 
+        print("        Alpha: ", alpha, ", Hidden: ", hidden_layer_sizes)
+
         return err, hidden_layer_sizes, alpha
 
     def fit(self, X, Y):
-        alpha_values = [1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3,
-                        1e-2, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9,
-                        1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2]
-        layer_sizes = [100, 150, 200, 250, 300]
+        alpha_values = [0, 1e-5, 1e-4, 1e-3,
+                        1e-2, 0.1, 0.2, 0.4, 0.8, 
+                        1, 2]
+        layer_sizes = [100, 200, 300]
         hidden_layer_sizes = []
 
         # 1 to 3 hidden layers
         # each of a size in layer_sizes
         for i in range(0, len(layer_sizes)):
             hidden_layer_sizes.append((layer_sizes[i], ))
-            for j in range(0, len(layer_sizes)):
-                hidden_layer_sizes.append((layer_sizes[i], layer_sizes[j],))
-                for k in range(0, len(layer_sizes)):
-                    hidden_layer_sizes.append((layer_sizes[i],
-                                               layer_sizes[j], layer_sizes[k],)
-                                              )
+            # for j in range(0, len(layer_sizes)):
+            #     hidden_layer_sizes.append((layer_sizes[i], layer_sizes[j],))
+            #     for k in range(0, len(layer_sizes)):
+            #         hidden_layer_sizes.append((layer_sizes[i],
+            #                                    layer_sizes[j], layer_sizes[k],)
+            #                                   )
+        # print(hidden_layer_sizes)
 
-        m_error = 101  # Error in percent
-        m_alpha = 0
-        m_hidden = None
+        # m_error = 101  # Error in percent
+        # m_alpha = 0
+        # m_hidden = None
 
-        threads = []
+        # threads = []
 
-        for hidden_layers in hidden_layer_sizes:
-            for alpha in alpha_values:
-                the_thread = Threader(target=self.fit_one,
-                                      args=(X, Y, hidden_layers, alpha))
-                threads.append(the_thread)
-                the_thread.start()
+        # for hidden_layers in hidden_layer_sizes:
+        #     for alpha in alpha_values:
+        #         the_thread = Threader(target=self.fit_one,
+        #                               args=(X, Y, hidden_layers, alpha))
+        #         threads.append(the_thread)
+        #         the_thread.start()
 
-        for thread in threads:
-            err, kern, C = thread.join()
-            if err < m_error:
-                print("        Layers: ", m_hidden, " -> ", hidden_layers,
-                      ", alpha: ", m_alpha, " -> ", alpha,
-                      ", Error: ", m_error, " -> ", err)
-                m_hidden = hidden_layers
-                m_alpha = alpha
-                m_error = err
+        # for thread in threads:
+        #     err, kern, C = thread.join()
+        #     if err < m_error:
+        #         print("        Layers: ", m_hidden, " -> ", hidden_layers,
+        #               ", alpha: ", m_alpha, " -> ", alpha,
+        #               ", Error: ", m_error, " -> ", err)
+        #         m_hidden = hidden_layers
+        #         m_alpha = alpha
+        #         m_error = err
 
-        self.model = MLPClassifier(hidden_layer_sizes=m_hidden,
-                                   alpha=m_alpha)
+        # self.model = MLPClassifier(hidden_layer_sizes=m_hidden,
+        #                            alpha=m_alpha)
+        # self.model.fit(X, Y)
+
+        param_grid = [
+                      {
+                        'activation': ['tanh', 'relu'],
+                        'solver': ['lbfgs', 'sgd', 'adam'],
+                        'hidden_layer_sizes': hidden_layer_sizes,
+                        'alpha': alpha_values,
+                        'learning_rate': ["invscaling", "adaptive"]
+                       }
+                     ]
+
+        self.model = GridSearchCV(MLPClassifier(), param_grid,
+                                  cv=self.K_CV_NUM, scoring='accuracy',
+                                  n_jobs=-1)
         self.model.fit(X, Y)
+
+        print("Best parameters set found on development set:")
+        print(self.model.best_params_)
 
     def predict(self, X):
         """Need to be a list of the predicted class for each sample."""
