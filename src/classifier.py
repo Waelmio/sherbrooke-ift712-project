@@ -14,6 +14,8 @@ import sys
 from parser import parser_train, parser_test, sub_writer
 from sklearn.model_selection._split import StratifiedShuffleSplit
 from models.SVM import SVM
+from models.MLP import MLP
+from sklearn import preprocessing
 
 CV_NUM = 5
 
@@ -43,10 +45,15 @@ def main():
     sub_X, sub_id = parser_test()
     labels = sorted(list(set(train_y)))
 
+    train_X = preprocessing.scale(train_X)
+    sub_X = preprocessing.scale(sub_X)
+
     # Get the good model
     model = None
     if model_name == "svm":
         model = SVM
+    elif model_name == "mlp":
+        model = MLP
     else:
         raise Exception("This model was not implemented")
 
@@ -74,7 +81,7 @@ def main():
         err_valid.append(compute_error(test_pred, y_valid))
 
         print("  CV ", ind, "/", CV_NUM)
-        print("    X_train samples: ", len(X_train))
+        # print("    X_train samples: ", len(X_train))
         print("    Training   error: ", err_train[-1], "%")
         print("    Validation error: ", err_valid[-1], "%")
         ind += 1
