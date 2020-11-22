@@ -13,12 +13,15 @@ import numpy as np
 import sys
 from parser import parser_train, parser_test, sub_writer
 from sklearn.model_selection._split import StratifiedShuffleSplit
+from sklearn import preprocessing
 from models.SVM import SVM
 from models.MLP import MLP
 from models.LDA import LDA
-from sklearn import preprocessing
+from models.RegressionLogistique import Logistique
+from models.Ridge import LinearRidge
 
 CV_NUM = 5
+alpha = 0.01
 
 
 def compute_error(Y_pred, Y):
@@ -49,6 +52,7 @@ def main():
     train_X = preprocessing.scale(train_X)
     sub_X = preprocessing.scale(sub_X)
 
+    
     # Get the good model
     model = None
     if model_name == "svm":
@@ -57,6 +61,10 @@ def main():
         model = MLP
     elif model_name == "lda":
         model = LDA
+    elif model_name == "logistique":
+        model = Logistique
+    elif model_name == "ridge":
+        model = LinearRidge
     else:
         raise Exception("This model was not implemented")
 
@@ -74,7 +82,7 @@ def main():
         X_train, X_valid = \
             train_X[train_index], train_X[valid_index]
         y_train, y_valid = train_y[train_index], train_y[valid_index]
-
+        
         the_model = model()
         the_model.fit(X_train, y_train)
         train_pred = the_model.predict(X_train)
