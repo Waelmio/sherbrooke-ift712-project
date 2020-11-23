@@ -17,11 +17,11 @@ from sklearn import preprocessing
 from models.SVM import SVM
 from models.MLP import MLP
 from models.LDA import LDA
-from models.RegressionLogistique import Logistique
-from models.Ridge import LinearRidge
+from models.logistic import Logistic
+from models.ridge import LinearRidge
+from models.perceptron import ClassicPerceptron
 
 CV_NUM = 5
-alpha = 0.01
 
 
 def compute_error(Y_pred, Y):
@@ -61,10 +61,12 @@ def main():
         model = MLP
     elif model_name == "lda":
         model = LDA
-    elif model_name == "logistique":
-        model = Logistique
+    elif model_name == "logistic":
+        model = Logistic
     elif model_name == "ridge":
         model = LinearRidge
+    elif model_name == "perceptron":
+        model = ClassicPerceptron
     else:
         raise Exception("This model was not implemented")
 
