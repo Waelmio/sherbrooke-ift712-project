@@ -1,6 +1,7 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 from threading import Thread
+import time
 
 
 class Threader(Thread):
@@ -61,12 +62,12 @@ class MLP():
 
     def fit(self, X, Y):
         alpha_values = [0, 1e-5, 1e-4, 1e-3,
-                        1e-2, 0.1, 0.2, 0.4, 0.8, 
+                        1e-2, 0.1, 0.2, 0.4, 0.8,
                         1, 2]
         layer_sizes = [100, 200, 300]
         hidden_layer_sizes = []
 
-        # 1 to 3 hidden layers
+        # 1 hidden layer
         # each of a size in layer_sizes
         for i in range(0, len(layer_sizes)):
             hidden_layer_sizes.append((layer_sizes[i], ))
@@ -107,20 +108,20 @@ class MLP():
 
         param_grid = [
                       {
-                        'activation': ['tanh', 'relu'],
-                        'solver': ['lbfgs', 'sgd', 'adam'],
+                        'activation': ['tanh'],
+                        'solver': ['lbfgs', 'adam'],
                         'hidden_layer_sizes': hidden_layer_sizes,
-                        'alpha': alpha_values,
-                        'learning_rate': ["invscaling", "adaptive"]
-                       }
+                        'alpha': alpha_values
+                      }
                      ]
-
+        start_time = time.time()
         self.model = GridSearchCV(MLPClassifier(), param_grid,
                                   cv=self.K_CV_NUM, scoring='accuracy',
                                   n_jobs=-1)
         self.model.fit(X, Y)
 
-        print("Best parameters set found on development set:")
+        print("Best parameters set found on development set in ",
+              time.time() - start_time, "s:")
         print(self.model.best_params_)
 
     def predict(self, X):
