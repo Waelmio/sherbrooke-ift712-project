@@ -83,6 +83,8 @@ class LDA(Classifier):
                     # Jump this not implemented combination
                     if shrink == "auto" and solv == "svd":
                         continue
+                    if solv != "svd" and tol != tol_values[0]:
+                        continue
                     the_thread = Threader(target=self.fit_one,
                                           args=(X, Y, solv, shrink, tol))
                     threads.append(the_thread)
