@@ -1,4 +1,11 @@
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+"""
+LDA
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
 
@@ -83,10 +90,10 @@ class LDA():
         for thread in threads:
             err, solv, shrink, tol = thread.join()
             if err < m_error:
-                print("        Solver: ", m_solv, " -> ", solv,
-                      ", Shrink: ", m_shrinker, " -> ", shrink,
-                      ", Tol: ", m_tol, " -> ", tol,
-                      ", Error: ", m_error, " -> ", err)
+                # print("        Solver: ", m_solv, " -> ", solv,
+                #       ", Shrink: ", m_shrinker, " -> ", shrink,
+                #       ", Tol: ", m_tol, " -> ", tol,
+                #       ", Error: ", m_error, " -> ", err)
                 m_tol = tol
                 m_solv = solv
                 m_shrinker = shrink

@@ -1,3 +1,10 @@
+"""
+Logistic
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
@@ -77,7 +84,7 @@ class Logistic():
                 m_solver = solver
                 m_error = err
 
-        print(m_solver)
+        # print(m_solver)
         if (m_solver == 'liblinear'):
             self.model = LogisticRegression(penalty='l1', solver=m_solver)
         else:

@@ -1,3 +1,10 @@
+"""
+Parser
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 import os.path
 import numpy as np
 

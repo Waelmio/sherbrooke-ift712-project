@@ -1,3 +1,11 @@
+"""
+Modèle
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
+
 class Classifier():
     """A simple classifier interface"""
 

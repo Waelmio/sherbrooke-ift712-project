@@ -18,7 +18,7 @@ from models.SVM import SVM
 from models.MLP import MLP
 from models.LDA import LDA
 from models.logistic import Logistic
-from models.ridge import LinearRidge
+from models.Ridge import LinearRidge
 from models.perceptron import ClassicPerceptron
 
 CV_NUM = 5
@@ -35,10 +35,10 @@ def compute_error(Y_pred, Y):
 
 def main():
 
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         usage = "\n Usage: python3 src/classifier.py model\
         \n\n\t model: name of the model you want to use\
-        \n\t svm, "
+        \n\t svm, mlp, lda, logistic, ridge, perceptron"
         print(usage)
         return
 

@@ -1,3 +1,10 @@
+"""
+Ridge
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 from sklearn.linear_model import Ridge
 
 

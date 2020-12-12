@@ -1,7 +1,18 @@
+"""
+MLP
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 from threading import Thread
 import time
+import os
+
+
+os.environ['PYTHONWARNINGS'] = "ignore"
 
 
 class Threader(Thread):
@@ -86,9 +97,9 @@ class MLP():
                                   n_jobs=-1)
         self.model.fit(X, Y)
 
-        print("Best parameters set found on development set in ",
-              time.time() - start_time, "s:")
-        print(self.model.best_params_)
+        # print("Best parameters set found on development set in ",
+        #       time.time() - start_time, "s:")
+        # print(self.model.best_params_)
 
     def predict(self, X):
         """Need to be a list of the predicted class for each sample."""

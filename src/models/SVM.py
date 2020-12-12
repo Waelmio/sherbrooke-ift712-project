@@ -1,3 +1,10 @@
+"""
+SVM
+
+Bougeard Yann 20137996
+Wilmo Maël 20 138 003
+"""
+
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
