@@ -9,6 +9,9 @@ from models.classifierModel import Classifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
+import os
+import warnings
+warnings.filterwarnings("ignore")
 
 
 class Threader(Thread):
@@ -18,6 +21,7 @@ class Threader(Thread):
         self._return = None
         self._args = args
         self._target = target
+        warnings.filterwarnings("ignore")
 
     def run(self):
         if self._target is not None:

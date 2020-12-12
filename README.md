@@ -18,9 +18,9 @@ python3 src/classifier.py model
 
 Les modèles disponibles sont:
 
-- ```svm```
-- ```mlp```
-- ```lda```
-- ```logistic```
-- ```ridge```
-- ```perceptron```
+- ```svm```  pour une classification par **Machine à vecteurs de support**.
+- ```mlp``` pour une classification par **Perceptron Multicouche**.
+- ```lda``` pour une classification par **Analyse Discriminante Linéaire**.
+- ```logistic``` pour une classification par **Régression Logistique**.
+- ```ridge``` pour une classification par **Régression de Ridge**.
+- ```perceptron``` pour une classification par **Perceptron**.
