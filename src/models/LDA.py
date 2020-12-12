@@ -1,3 +1,4 @@
+from models.classifierModel import Classifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 """
 LDA
@@ -27,7 +28,7 @@ class Threader(Thread):
         return self._return
 
 
-class LDA():
+class LDA(Classifier):
     """A LDA classifier with k-fold cross-validation to search hyperparameters
        and threadings to increase speed."""
 

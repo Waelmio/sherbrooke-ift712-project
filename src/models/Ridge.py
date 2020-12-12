@@ -5,10 +5,11 @@ Bougeard Yann 20137996
 Wilmo Maël 20 138 003
 """
 
+from models.classifierModel import Classifier
 from sklearn.linear_model import Ridge
 
 
-class LinearRidge():
+class LinearRidge(Classifier):
     """A simple classifier interface"""
 
     def __init__(self):

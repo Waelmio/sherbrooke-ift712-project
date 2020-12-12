@@ -5,6 +5,7 @@ Bougeard Yann 20137996
 Wilmo Maël 20 138 003
 """
 
+from models.classifierModel import Classifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
@@ -27,7 +28,7 @@ class Threader(Thread):
         return self._return
 
 
-class Logistic():
+class Logistic(Classifier):
 
     def __init__(self):
         # solver{‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}

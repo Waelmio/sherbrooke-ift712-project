@@ -6,6 +6,7 @@ Wilmo Maël 20 138 003
 """
 
 
+from models.classifierModel import Classifier
 from sklearn.linear_model import Perceptron
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
@@ -28,7 +29,7 @@ class Threader(Thread):
         return self._return
 
 
-class ClassicPerceptron():
+class ClassicPerceptron(Classifier):
 
     def __init__(self):
         self.K_CV_NUM = 5

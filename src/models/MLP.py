@@ -5,6 +5,7 @@ Bougeard Yann 20137996
 Wilmo Maël 20 138 003
 """
 
+from models.classifierModel import Classifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 from threading import Thread
@@ -32,7 +33,7 @@ class Threader(Thread):
         return self._return
 
 
-class MLP():
+class MLP(Classifier):
     """A MLP classifier with k-fold cross-validation to search hyperparameters
        and threadings to increase speed."""
 

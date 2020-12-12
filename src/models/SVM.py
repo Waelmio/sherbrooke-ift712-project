@@ -5,6 +5,7 @@ Bougeard Yann 20137996
 Wilmo Maël 20 138 003
 """
 
+from models.classifierModel import Classifier
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedShuffleSplit
 from threading import Thread
@@ -27,7 +28,7 @@ class Threader(Thread):
         return self._return
 
 
-class SVM():
+class SVM(Classifier):
     """A SVM classifier with k-fold cross-validation to search hyperparameters
        and threadings to increase speed."""
 
