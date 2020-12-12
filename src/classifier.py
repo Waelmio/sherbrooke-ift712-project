@@ -52,7 +52,6 @@ def main():
     train_X = preprocessing.scale(train_X)
     sub_X = preprocessing.scale(sub_X)
 
-    
     # Get the good model
     model = None
     if model_name == "svm":
@@ -82,7 +81,7 @@ def main():
         X_train, X_valid = \
             train_X[train_index], train_X[valid_index]
         y_train, y_valid = train_y[train_index], train_y[valid_index]
-        
+
         the_model = model()
         the_model.fit(X_train, y_train)
         train_pred = the_model.predict(X_train)

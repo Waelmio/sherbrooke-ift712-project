@@ -71,40 +71,6 @@ class MLP():
         # each of a size in layer_sizes
         for i in range(0, len(layer_sizes)):
             hidden_layer_sizes.append((layer_sizes[i], ))
-            # for j in range(0, len(layer_sizes)):
-            #     hidden_layer_sizes.append((layer_sizes[i], layer_sizes[j],))
-            #     for k in range(0, len(layer_sizes)):
-            #         hidden_layer_sizes.append((layer_sizes[i],
-            #                                    layer_sizes[j], layer_sizes[k],)
-            #                                   )
-        # print(hidden_layer_sizes)
-
-        # m_error = 101  # Error in percent
-        # m_alpha = 0
-        # m_hidden = None
-
-        # threads = []
-
-        # for hidden_layers in hidden_layer_sizes:
-        #     for alpha in alpha_values:
-        #         the_thread = Threader(target=self.fit_one,
-        #                               args=(X, Y, hidden_layers, alpha))
-        #         threads.append(the_thread)
-        #         the_thread.start()
-
-        # for thread in threads:
-        #     err, kern, C = thread.join()
-        #     if err < m_error:
-        #         print("        Layers: ", m_hidden, " -> ", hidden_layers,
-        #               ", alpha: ", m_alpha, " -> ", alpha,
-        #               ", Error: ", m_error, " -> ", err)
-        #         m_hidden = hidden_layers
-        #         m_alpha = alpha
-        #         m_error = err
-
-        # self.model = MLPClassifier(hidden_layer_sizes=m_hidden,
-        #                            alpha=m_alpha)
-        # self.model.fit(X, Y)
 
         param_grid = [
                       {
