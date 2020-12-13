@@ -54,8 +54,7 @@ class LinearRidge(Classifier):
                 X[train_index], X[valid_index]
             y_train, y_valid = Y[train_index], Y[valid_index]
             model = RidgeClassifier(alpha=alpha, 
-                                    solver='auto',
-                                    normalize=True)
+                                    solver='auto')
             model.fit(X_train, y_train)
             pred = model.predict(X_valid)
             err += self.compute_error(pred, y_valid)
@@ -65,7 +64,7 @@ class LinearRidge(Classifier):
         return err, alpha
 
     def fit(self, X, Y):
-        alphas = [1e-5, 1e-4, 1e-3, 1e-2, 0.1, 1, 1.2, 1.4, 1.6, 1.8, 2]
+        alphas = [1e-5, 5e-5, 1e-4, 5e-4, 1e-3, 5e-3, 1e-2, 5e-2, 0.1, 0.5, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2]
         m_alpha = 0
         m_error = 101
         threads = []
