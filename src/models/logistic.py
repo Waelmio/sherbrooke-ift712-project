@@ -48,7 +48,7 @@ class Logistic(Classifier):
                 err += 1
         return err / len(Y_pred) * 100
 
-    def search_parameters(self, X, Y, solver):
+    def search_parameters(self, X, Y, C):
         err = 0
 
         sss = StratifiedShuffleSplit(n_splits=self.K_CV_NUM,
@@ -59,41 +59,35 @@ class Logistic(Classifier):
             X_train, X_valid = \
                 X[train_index], X[valid_index]
             y_train, y_valid = Y[train_index], Y[valid_index]
-            if (solver == 'liblinear'):
-                model = LogisticRegression(penalty='l1', solver=solver)
-            else:
-                model = LogisticRegression(penalty='none', solver=solver)
+            model = LogisticRegression(penalty='none', C=C)
             model.fit(X_train, y_train)
             pred = model.predict(X_valid)
             err += self.compute_error(pred, y_valid)
 
         err /= self.K_CV_NUM
 
-        return err, solver
+        return err, C
 
     def fit(self, X, Y):
         m_error = 101
-        m_solver = None
+        m_C = 1
         threads = []
-        solvers = ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+        Cs = [1e-5, 5e-5, 1e-4, 5e-4, 1e-3, 5e-3, 1e-2, 5e-2, 0.1, 0.5, 1]
 
-        for solver in solvers:
+        for C in Cs:
             the_thread = Threader(target=self.search_parameters,
-                                  args=(X, Y, solver))
+                                      args=(X, Y, C))
             threads.append(the_thread)
             the_thread.start()
 
         for thread in threads:
-            err, solver = thread.join()
+            err, C = thread.join()
             if err < m_error:
-                m_solver = solver
+                m_C = C
                 m_error = err
 
         # print(m_solver)
-        if (m_solver == 'liblinear'):
-            self.model = LogisticRegression(penalty='l1', solver=m_solver)
-        else:
-            self.model = LogisticRegression(penalty='none', solver=m_solver)
+        self.model = LogisticRegression(penalty='none', C=m_C)
         self.model.fit(X, Y)
 
     def predict(self, X):
