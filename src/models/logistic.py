@@ -76,7 +76,7 @@ class Logistic(Classifier):
 
         for C in Cs:
             the_thread = Threader(target=self.search_parameters,
-                                      args=(X, Y, C))
+                                  args=(X, Y, C))
             threads.append(the_thread)
             the_thread.start()
 
